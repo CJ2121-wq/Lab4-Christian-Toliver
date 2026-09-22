@@ -47,6 +47,21 @@ timerMessage.style.textShadow = "2px 2px 4px #000000";
 timerMessage.style.zIndex = "1";
 document.body.appendChild(timerMessage);
 
+
+const scoreMessage = document.createElement("div");
+scoreMessage.textContent = "Score: 0";
+scoreMessage.style.position = "fixed";
+scoreMessage.style.top = "24px";
+scoreMessage.style.left = "24px";
+scoreMessage.style.fontFamily = "sans-serif";
+scoreMessage.style.fontSize = "24px";
+scoreMessage.style.fontWeight = "bold";
+scoreMessage.style.color = "#ffffff";
+scoreMessage.style.textShadow = "2px 2px 4px #000000";
+scoreMessage.style.zIndex = "1";
+document.body.appendChild(scoreMessage);
+
+
 // Ground Plane
 const planeGeometry = new THREE.PlaneGeometry(30, 30);
 const planeMaterial = new THREE.MeshStandardMaterial({
@@ -194,6 +209,7 @@ let targetFound = false;
 const gameStartTime = performance.now();
 const gameDuration = 20;
 let lastSpawn = 0;
+let score = 0;
 
 function updateTimerMessage(secondsRemaining) {
     if (secondsRemaining === 0) {
@@ -276,9 +292,13 @@ function animate() {
 
     const currentTime = performance.now();
 
-    if (currentTime - lastSpawn > 1000) {
+   if (currentTime - lastSpawn > 1000) {
 
     spawnObstacle();
+
+    score++;
+
+    scoreMessage.textContent = "Score: " + score;
 
     lastSpawn = currentTime;
 }
