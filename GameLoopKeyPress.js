@@ -89,6 +89,7 @@ const player = new THREE.Mesh(
 
 player.position.y = 0.5;
 scene.add(player);
+const obstacles = [];
 
 const planeObjects = [
     new THREE.Mesh(
@@ -144,6 +145,32 @@ function placeObjects(objects) {
 }
 
 placeObjects(planeObjects);
+
+function spawnObstacle() {
+
+    const obstacleGeometry = new THREE.BoxGeometry(1, 1, 1);
+
+    const obstacleMaterial = new THREE.MeshStandardMaterial({
+        color: 0xff0000
+    });
+
+    const obstacle = new THREE.Mesh(
+        obstacleGeometry,
+        obstacleMaterial
+    );
+
+    const randomX = (Math.random() - 0.5) * 20;
+
+    obstacle.position.set(
+        randomX,
+        10,
+        0
+    );
+
+    scene.add(obstacle);
+
+    obstacles.push(obstacle);
+}
 
 // Keyboard State Object
 const keys = {};
