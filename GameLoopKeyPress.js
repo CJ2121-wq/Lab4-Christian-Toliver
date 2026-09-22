@@ -335,6 +335,8 @@ for (let i = obstacles.length - 1; i >= 0; i--) {
         gameOver = true;
 
         gameOverMessage.style.display = "block";
+
+        timerMessage.style.display = "none";
 }
 
     if (obstacle.position.y < -2) {
