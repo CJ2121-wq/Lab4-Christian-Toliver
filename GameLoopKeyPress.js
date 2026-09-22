@@ -347,7 +347,6 @@ for (let i = obstacles.length - 1; i >= 0; i--) {
     }
 }
 
-    updateTimer();
 
     // WASD Controls
     if (keys["w"]) {
