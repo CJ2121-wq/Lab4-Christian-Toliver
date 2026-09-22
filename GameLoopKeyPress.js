@@ -62,6 +62,21 @@ scoreMessage.style.zIndex = "1";
 document.body.appendChild(scoreMessage);
 
 
+const gameOverMessage = document.createElement("div");
+gameOverMessage.textContent = "GAME OVER";
+gameOverMessage.style.position = "fixed";
+gameOverMessage.style.top = "50%";
+gameOverMessage.style.left = "50%";
+gameOverMessage.style.transform = "translate(-50%, -50%)";
+gameOverMessage.style.fontFamily = "sans-serif";
+gameOverMessage.style.fontSize = "60px";
+gameOverMessage.style.fontWeight = "bold";
+gameOverMessage.style.color = "#ff0000";
+gameOverMessage.style.display = "none";
+gameOverMessage.style.zIndex = "1";
+document.body.appendChild(gameOverMessage);
+
+
 // Ground Plane
 const planeGeometry = new THREE.PlaneGeometry(30, 30);
 const planeMaterial = new THREE.MeshStandardMaterial({
@@ -210,6 +225,7 @@ const gameStartTime = performance.now();
 const gameDuration = 20;
 let lastSpawn = 0;
 let score = 0;
+let gameOver = false;
 
 function updateTimerMessage(secondsRemaining) {
     if (secondsRemaining === 0) {
@@ -290,24 +306,36 @@ function animate() {
 
     requestAnimationFrame(animate);
 
-    const currentTime = performance.now();
+     if (!gameOver) {
 
-   if (currentTime - lastSpawn > 1000) {
+        const currentTime = performance.now();
 
-    spawnObstacle();
+        if (currentTime - lastSpawn > 1000) {
 
-    score++;
+            spawnObstacle();
 
-    scoreMessage.textContent = "Score: " + score;
+            score++;
 
-    lastSpawn = currentTime;
-}
+            scoreMessage.textContent = "Score: " + score;
+
+            lastSpawn = currentTime;
+        }
 
 for (let i = obstacles.length - 1; i >= 0; i--) {
 
     const obstacle = obstacles[i];
 
     obstacle.position.y -= 0.05;
+
+    const playerBox = new THREE.Box3().setFromObject(player);
+    const obstacleBox = new THREE.Box3().setFromObject(obstacle);
+
+    if (playerBox.intersectsBox(obstacleBox)) {
+
+        gameOver = true;
+
+        gameOverMessage.style.display = "block";
+}
 
     if (obstacle.position.y < -2) {
 
@@ -353,7 +381,7 @@ for (let i = obstacles.length - 1; i >= 0; i--) {
         player.position.x += speed;
     }
 
-    handleCollisions();
+}
 
     renderer.render(scene, camera);
 }
