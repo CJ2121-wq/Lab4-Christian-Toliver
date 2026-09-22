@@ -193,6 +193,7 @@ let collisionTime = 0;
 let targetFound = false;
 const gameStartTime = performance.now();
 const gameDuration = 20;
+let lastSpawn = 0;
 
 function updateTimerMessage(secondsRemaining) {
     if (secondsRemaining === 0) {
@@ -272,6 +273,15 @@ function handleCollisions() {
 function animate() {
 
     requestAnimationFrame(animate);
+
+    const currentTime = performance.now();
+
+    if (currentTime - lastSpawn > 1000) {
+
+    spawnObstacle();
+
+    lastSpawn = currentTime;
+}
 
     updateTimer();
 
