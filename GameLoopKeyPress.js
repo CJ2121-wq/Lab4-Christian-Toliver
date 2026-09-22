@@ -283,6 +283,20 @@ function animate() {
     lastSpawn = currentTime;
 }
 
+for (let i = obstacles.length - 1; i >= 0; i--) {
+
+    const obstacle = obstacles[i];
+
+    obstacle.position.y -= 0.05;
+
+    if (obstacle.position.y < -2) {
+
+        scene.remove(obstacle);
+
+        obstacles.splice(i, 1);
+    }
+}
+
     updateTimer();
 
     // WASD Controls
